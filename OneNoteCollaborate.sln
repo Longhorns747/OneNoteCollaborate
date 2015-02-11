@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneNoteCollaborate", "OneNoteCollaborate\OneNoteCollaborate.csproj", "{65C35444-4C40-4780-9047-DD15365F3D66}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishScripts", "PublishScripts", "{2C37DADC-5173-412D-9861-D968E2C6C839}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\AzureWebsitePublishModule.psm1 = PublishScripts\AzureWebsitePublishModule.psm1
+		PublishScripts\Publish-WebApplicationWebsite.ps1 = PublishScripts\Publish-WebApplicationWebsite.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configurations", "Configurations", "{FD505060-6F5F-4AC7-B3F3-A8EBFF2845CA}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\Configurations\OneNoteCollaborate-WAWS-dev.json = PublishScripts\Configurations\OneNoteCollaborate-WAWS-dev.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{65C35444-4C40-4780-9047-DD15365F3D66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65C35444-4C40-4780-9047-DD15365F3D66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65C35444-4C40-4780-9047-DD15365F3D66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65C35444-4C40-4780-9047-DD15365F3D66}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FD505060-6F5F-4AC7-B3F3-A8EBFF2845CA} = {2C37DADC-5173-412D-9861-D968E2C6C839}
+	EndGlobalSection
+EndGlobal
