@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Microsoft.AspNet.SignalR;
 using System.Net.Http;
+using OneNoteCollaborate.Configuration;
 
 namespace OneNoteCollaborate.Hubs
 {
@@ -14,11 +15,20 @@ namespace OneNoteCollaborate.Hubs
             Clients.All.hello();
         }
 
-        public void syncTextbox(string currentText, string accessToken)
+        public async void syncTextbox(string currentText, string accessToken)
         {
-            using (var content = new StringContent(currentText))
+            using (var httpClient = new HttpClient { BaseAddress =  new Uri(APIData.BASE_URL)})
             {
-                Clients.All.syncFromServer(currentText);
+
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("authorization", "Bearer " + accessToken);
+                using (var content = new StringContent(APIData.HTML_WRAP + currentText + "</body></html>", System.Text.Encoding.Default, "application/xhtml+xml"))
+                {
+                    using (var response = await httpClient.PostAsync("pages", content))
+                    {
+                        string responseData = await response.Content.ReadAsStringAsync();
+                        Clients.All.syncFromServer(currentText);
+                    }
+                }
             }
         }
     }

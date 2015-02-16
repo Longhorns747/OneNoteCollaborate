@@ -27,47 +27,16 @@ namespace OneNoteCollaborate.Controllers
                 if (result.Status == LiveConnectSessionStatus.Connected)
                 {
                     string accessToken = liveAuthClient.Session.AccessToken;
+                    postPage(accessToken);
+                    List<Notebook> notebooks = await getNotebooks(accessToken);
 
-                    using (var client = new HttpClient())
+                    string res = "";
+                    foreach (Notebook note in notebooks)
                     {
-                        client.BaseAddress = new Uri(APIData.BASE_URL);
-                        client.DefaultRequestHeaders.Accept.Clear();
-                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-                        HttpResponseMessage response = await client.GetAsync(@"notebooks?select=id,name");
-                        if (response.IsSuccessStatusCode)
-                        {
-                            string data = await response.Content.ReadAsStringAsync();
-                            
-                            JsonTextReader jsonReader = new JsonTextReader(new StringReader(data));
-                            //deserialize to your class
-                            List<Notebook> notebooks = new List<Notebook>();
-
-                            while (jsonReader.Read())
-                            {
-                                if (jsonReader.Value != null && jsonReader.Value.Equals("id"))
-                                {
-                                    string id = jsonReader.ReadAsString();
-                                    string name = "";
-                                    jsonReader.Read();
-
-                                    if(jsonReader.Value != null && jsonReader.Value.Equals("name"))
-                                    {
-                                        name = jsonReader.ReadAsString();
-                                    }
-
-                                    notebooks.Add(new Notebook(id, name));
-                                }
-                            }
-
-                            string res = "";
-                            foreach (Notebook note in notebooks) {
-                                res = res + note.name + " ";
-                            }
-                            ViewBag.Notebooks = res;
-                            ViewBag.Token = accessToken;
-                        }
+                        res = res + note.name + " ";
                     }
+                    ViewBag.Notebooks = res;
+                    ViewBag.Token = accessToken;      
                 }
             }
             catch (LiveAuthException authEx)
@@ -91,6 +60,61 @@ namespace OneNoteCollaborate.Controllers
 
             Response.BufferOutput = true;
             Response.Redirect(loginUrl);
+        }
+
+        public async void postPage(string accessToken)
+        {
+            using (var httpClient = new HttpClient { BaseAddress = new Uri(APIData.BASE_URL) })
+            {
+
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("authorization", "Bearer " + accessToken);
+                using (var content = new StringContent(APIData.HTML_WRAP + "</body></html>", System.Text.Encoding.Default, "application/xhtml+xml"))
+                {
+                    using (var response = await httpClient.PostAsync("pages", content))
+                    {
+                        string responseData = await response.Content.ReadAsStringAsync();
+                    }
+                }
+            }
+        }
+
+        public async Task<List<Notebook>> getNotebooks(string accessToken)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(APIData.BASE_URL);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+                HttpResponseMessage response = await client.GetAsync(@"notebooks?select=id,name");
+                if (response.IsSuccessStatusCode)
+                {
+                    string data = await response.Content.ReadAsStringAsync();
+
+                    JsonTextReader jsonReader = new JsonTextReader(new StringReader(data));
+                    //deserialize to your class
+                    List<Notebook> notebooks = new List<Notebook>();
+
+                    while (jsonReader.Read())
+                    {
+                        if (jsonReader.Value != null && jsonReader.Value.Equals("id"))
+                        {
+                            string id = jsonReader.ReadAsString();
+                            string name = "";
+                            jsonReader.Read();
+
+                            if (jsonReader.Value != null && jsonReader.Value.Equals("name"))
+                            {
+                                name = jsonReader.ReadAsString();
+                            }
+
+                            notebooks.Add(new Notebook(id, name));
+                        }
+                    }
+                    return notebooks;
+                }
+                return new List<Notebook>();
+            }
         }
     }
 }

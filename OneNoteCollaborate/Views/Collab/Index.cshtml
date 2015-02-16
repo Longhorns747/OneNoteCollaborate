@@ -33,7 +33,7 @@
             $.connection.hub.start().done(function () {
                 $('#syncTextbox').on('change keyup', function () {
                     // Call the Send method on the hub.
-                    collab.server.syncTextbox($('#syncTextbox').val(), $('#accessToken').val());
+                    collab.server.syncTextbox($('#syncTextbox').val(), $('#accessToken').html());
                 });
             });
         });
