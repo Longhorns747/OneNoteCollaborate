@@ -22,7 +22,7 @@ namespace OneNoteCollaborate.Controllers
         {
             try
             {
-                LiveAuthClient liveAuthClient = new LiveAuthClient(APIData.CLIENT_ID, APIData.CLIENT_SECRET, APIData.CLIENT_SECRET);
+                LiveAuthClient liveAuthClient = new LiveAuthClient(APIData.CLIENT_ID, APIData.CLIENT_SECRET, APIData.REDIRECT_URL);
                 LiveLoginResult result = await liveAuthClient.ExchangeAuthCodeAsync(this.HttpContext);
                 if (result.Status == LiveConnectSessionStatus.Connected)
                 {

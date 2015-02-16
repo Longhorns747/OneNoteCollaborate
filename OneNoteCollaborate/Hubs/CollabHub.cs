@@ -18,9 +18,8 @@ namespace OneNoteCollaborate.Hubs
         {
             using (var content = new StringContent(currentText))
             {
-
+                Clients.All.syncFromServer(currentText);
             }
-            Clients.All.syncFromServer(currentText);
         }
     }
 }
