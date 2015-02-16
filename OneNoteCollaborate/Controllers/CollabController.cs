@@ -69,7 +69,7 @@ namespace OneNoteCollaborate.Controllers
             using (var httpClient = new HttpClient { BaseAddress = new Uri(APIData.BASE_URL) })
             {
                 httpClient.DefaultRequestHeaders.TryAddWithoutValidation("authorization", "Bearer " + accessToken);
-                using (var content = new StringContent(HTMLConsts.HTML_WRAP + "Testing" + HTMLConsts.HTML_CLOSE_WRAP, System.Text.Encoding.Default, "application/xhtml+xml"))
+                using (var content = new StringContent(HTMLConsts.HTML_WRAP + "Collaborate below!" + HTMLConsts.HTML_CLOSE_WRAP, System.Text.Encoding.Default, "application/xhtml+xml"))
                 {
                     using (var response = await httpClient.PostAsync("pages", content))
                     {

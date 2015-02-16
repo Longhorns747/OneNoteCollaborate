@@ -22,7 +22,7 @@ namespace OneNoteCollaborate.Hubs
             {
 
                 httpClient.DefaultRequestHeaders.TryAddWithoutValidation("authorization", "Bearer " + accessToken);
-                using (var content = new StringContent(HTMLConsts.PATCH_WRAP + currentText + HTMLConsts.PATCH_CLOSE_WRAP, System.Text.Encoding.Default, "application/xhtml+xml"))
+                using (var content = new StringContent(HTMLConsts.PATCH_WRAP + currentText + HTMLConsts.PATCH_CLOSE_WRAP, System.Text.Encoding.Default, "application/json"))
                 {
                     HttpResponseMessage response = null;
                     var requestUri = new Uri(new Uri(APIData.PATCH_URL), "beta/pages/" + pageId + "/content");
