@@ -8,6 +8,7 @@
     Notebooks:
     <p>@ViewBag.Notebooks</p>
     <div id="accessToken" style="display: none;">@ViewBag.Token</div>
+    <div id="pageId" style="display: none;">@ViewBag.Id</div>
     <textarea id="syncTextbox" rows="4" cols="50"></textarea>
 </div>
 @section scripts {
@@ -33,7 +34,7 @@
             $.connection.hub.start().done(function () {
                 $('#syncTextbox').on('change keyup', function () {
                     // Call the Send method on the hub.
-                    collab.server.syncTextbox($('#syncTextbox').val(), $('#accessToken').html());
+                    collab.server.syncTextbox($('#syncTextbox').val(), $('#accessToken').html(), $('#pageId').html());
                 });
             });
         });

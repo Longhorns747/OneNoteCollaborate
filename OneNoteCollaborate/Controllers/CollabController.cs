@@ -27,7 +27,7 @@ namespace OneNoteCollaborate.Controllers
                 if (result.Status == LiveConnectSessionStatus.Connected)
                 {
                     string accessToken = liveAuthClient.Session.AccessToken;
-                    postPage(accessToken);
+                    string pageId = await postPage(accessToken);
                     List<Notebook> notebooks = await getNotebooks(accessToken);
 
                     string res = "";
@@ -36,7 +36,8 @@ namespace OneNoteCollaborate.Controllers
                         res = res + note.name + " ";
                     }
                     ViewBag.Notebooks = res;
-                    ViewBag.Token = accessToken;      
+                    ViewBag.Token = accessToken;
+                    ViewBag.Id = pageId;
                 }
             }
             catch (LiveAuthException authEx)
@@ -62,20 +63,30 @@ namespace OneNoteCollaborate.Controllers
             Response.Redirect(loginUrl);
         }
 
-        public async void postPage(string accessToken)
+        public async Task<String> postPage(string accessToken)
         {
+            string id = "";
             using (var httpClient = new HttpClient { BaseAddress = new Uri(APIData.BASE_URL) })
             {
-
                 httpClient.DefaultRequestHeaders.TryAddWithoutValidation("authorization", "Bearer " + accessToken);
-                using (var content = new StringContent(APIData.HTML_WRAP + "</body></html>", System.Text.Encoding.Default, "application/xhtml+xml"))
+                using (var content = new StringContent(HTMLConsts.HTML_WRAP + HTMLConsts.HTML_CLOSE_WRAP, System.Text.Encoding.Default, "application/xhtml+xml"))
                 {
                     using (var response = await httpClient.PostAsync("pages", content))
                     {
                         string responseData = await response.Content.ReadAsStringAsync();
+                        JsonTextReader jsonReader = new JsonTextReader(new StringReader(responseData));
+                        while (jsonReader.Read())
+                        {
+                            if (jsonReader.Value != null && jsonReader.Value.Equals("id"))
+                            {
+                                id = jsonReader.ReadAsString();
+                            }
+                        }
                     }
                 }
             }
+
+            return id;
         }
 
         public async Task<List<Notebook>> getNotebooks(string accessToken)
