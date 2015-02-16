@@ -56,7 +56,7 @@ namespace OneNoteCollaborate.Controllers
         public void Login()
         {
             LiveAuthClient liveAuthClient = new LiveAuthClient(APIData.CLIENT_ID, APIData.CLIENT_SECRET, null);
-            string[] scopes = new string[] { "wl.signin", "wl.basic", "office.onenote", "office.onenote_create" };
+            string[] scopes = new string[] { "wl.signin", "wl.basic", "office.onenote", "office.onenote_create", "office.onenote_update", "office.onenote_update_by_app" };
             string loginUrl = liveAuthClient.GetLoginUrl(scopes, APIData.REDIRECT_URL);
 
             Response.BufferOutput = true;
@@ -69,7 +69,7 @@ namespace OneNoteCollaborate.Controllers
             using (var httpClient = new HttpClient { BaseAddress = new Uri(APIData.BASE_URL) })
             {
                 httpClient.DefaultRequestHeaders.TryAddWithoutValidation("authorization", "Bearer " + accessToken);
-                using (var content = new StringContent(HTMLConsts.HTML_WRAP + HTMLConsts.HTML_CLOSE_WRAP, System.Text.Encoding.Default, "application/xhtml+xml"))
+                using (var content = new StringContent(HTMLConsts.HTML_WRAP + "Testing" + HTMLConsts.HTML_CLOSE_WRAP, System.Text.Encoding.Default, "application/xhtml+xml"))
                 {
                     using (var response = await httpClient.PostAsync("pages", content))
                     {

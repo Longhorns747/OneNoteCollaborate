@@ -25,7 +25,7 @@ namespace OneNoteCollaborate.Hubs
                 using (var content = new StringContent(HTMLConsts.PATCH_WRAP + currentText + HTMLConsts.PATCH_CLOSE_WRAP, System.Text.Encoding.Default, "application/xhtml+xml"))
                 {
                     HttpResponseMessage response = null;
-                    var requestUri = new Uri(new Uri(APIData.BASE_URL), "beta/pages/" + pageId + "/content");
+                    var requestUri = new Uri(new Uri(APIData.PATCH_URL), "beta/pages/" + pageId + "/content");
                     using (var request = new HttpRequestMessage { Method = new HttpMethod("PATCH"), RequestUri = requestUri, Content = content })
                     {
                         response = await httpClient.SendAsync(request);

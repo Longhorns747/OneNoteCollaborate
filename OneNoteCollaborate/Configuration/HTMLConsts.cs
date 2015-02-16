@@ -11,9 +11,10 @@ namespace OneNoteCollaborate.Configuration
             <title>OneNoteCollaborate</title></head><body><div id=""item"">";
         public const string HTML_CLOSE_WRAP = "</div></body></html>";
         public const string PATCH_WRAP = @"[{
-              'target': '#item',
-              'action': 'append',
-              'content': '";
-        public const string PATCH_CLOSE_WRAP = @"'}]";
+              ""target"": ""#item"",
+              ""action"": ""append"",
+              ""position"": ""after"", 
+              ""content"": """;
+        public const string PATCH_CLOSE_WRAP = @""" }]";
     }
 }
