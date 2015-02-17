@@ -15,7 +15,7 @@
     <AssemblyName>OneNoteCollaborate</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -226,6 +226,7 @@
     <None Include="Properties\PublishProfiles\OneNoteCollaborate %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\OneNoteCollaborate %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\OneNoteCollaborate.pubxml" />
+    <Content Include="Publish-WebApplicationWebsite.ps1" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -303,7 +304,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1713</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:1713/</IISUrl>
+          <IISUrl>http://localhost/OneNoteCollaborate</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
